@@ -65,10 +65,17 @@ public class HistoryView {
 
 	/**
 	 * Returns history view parent control
+	 * 
 	 * @return
 	 */
 	public Control getControl() {
 		return historyComposite;
+	}
+
+	public void dispose() {
+		if (!historyComposite.isDisposed()) {
+			historyComposite.dispose();
+		}
 	}
 
 }

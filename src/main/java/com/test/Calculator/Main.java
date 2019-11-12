@@ -38,8 +38,8 @@ public class Main {
 
 		calculatorTab.setText("Calculator");
 
-		CalcuatorView calcuator = new CalcuatorView(tabFolder, new OperationsManager(history));
-		calculatorTab.setControl(calcuator.getControl());
+		CalcuatorView calcuatorView = new CalcuatorView(tabFolder, new OperationsManager(history));
+		calculatorTab.setControl(calcuatorView.getControl());
 
 		TabItem historyTab = new TabItem(tabFolder, SWT.NONE);
 
@@ -55,7 +55,8 @@ public class Main {
 				display.sleep();
 			}
 		}
-		calcuator.dispose();
+		historyView.dispose();
+		calcuatorView.dispose();
 		display.dispose();
 	}
 

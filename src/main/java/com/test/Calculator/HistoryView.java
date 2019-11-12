@@ -1,9 +1,10 @@
 package com.test.Calculator;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
@@ -22,8 +23,10 @@ public class HistoryView {
 
 	private Text historyText;
 
+	private Button clearButton;
+
 	/**
-	 * 
+	 * Creates a view to show history in the tab
 	 * 
 	 * @param tabFolder
 	 * @param history
@@ -38,11 +41,11 @@ public class HistoryView {
 		historyComposite.setLayout(layout);
 		historyText = new Text(historyComposite, SWT.READ_ONLY | SWT.WRAP | SWT.V_SCROLL);
 		history.setModifyListener(this::showHistory);
-		
-		historyText.setLayoutData(new RowData(250,125));
-		
-		Button clearButton  = new Button(historyComposite,SWT.PUSH);
-		clearButton.setLayoutData(new RowData(75, 30));
+
+		historyText.setLayoutData(new RowData(250, 130));
+
+		clearButton = new Button(historyComposite, SWT.PUSH);
+		clearButton.setLayoutData(new RowData(75, 20));
 		clearButton.setText("Clear history");
 		clearButton.addSelectionListener(new SelectionAdapter() {
 
@@ -55,9 +58,15 @@ public class HistoryView {
 	}
 
 	private void showHistory() {
-		historyText.setText(history.getHistory().stream().reduce("", StringUtils::concatWithLineBreaks));
+		List<String> list = history.getHistory();
+		historyText.setText(list.stream().reduce("", StringUtils::concatWithLineBreaks));
+		clearButton.setEnabled(list.size() > 0);
 	}
 
+	/**
+	 * Returns history view parent control
+	 * @return
+	 */
 	public Control getControl() {
 		return historyComposite;
 	}

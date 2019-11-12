@@ -24,7 +24,7 @@ import com.test.Calculator.history.History;
 import com.test.Calculator.history.SessionHistory;
 import com.test.Calculator.operations.OperationsManager;
 
-public class Calcuator {
+public class CalcuatorView {
 
 	private Composite calculatorComposite;
 	private Text firstNumberText;
@@ -39,30 +39,34 @@ public class Calcuator {
 	private Composite resultComposite;
 
 	private Button calculateButton;
+	private Text resultText;
 	private Label resultLabel;
-	private Label resultLabelDescription;
 
-	public Calcuator(TabFolder tabFolder, OperationsManager operationsManager) {
+	/**
+	 * Creates view to show calculator in the tab
+	 * 
+	 * @param tabFolder
+	 * @param operationsManager
+	 */
+	public CalcuatorView(TabFolder tabFolder, OperationsManager operationsManager) {
 
 		this.operationsManager = operationsManager;
 
 		calculatorComposite = new Composite(tabFolder, SWT.NONE);
 		FillLayout layout = new FillLayout(SWT.VERTICAL);
 		calculatorComposite.setLayout(layout);
-		
+
 		createOperationsComposite();
-		
+
 		createButtonsComposite();
 
 		createResultComposite();
 	}
 
 	private void createOperationsComposite() {
-		
 
 		operationsComposite = new Composite(calculatorComposite, SWT.NONE);
 
-		
 		RowLayout operationsLayout = new RowLayout(SWT.HORIZONTAL);
 		operationsLayout.spacing = 15;
 		operationsLayout.center = true;
@@ -84,8 +88,6 @@ public class Calcuator {
 		firstNumberText.addModifyListener(listener);
 		secondNumberText.addModifyListener(listener);
 	}
-	
-	
 
 	private void createButtonsComposite() {
 		buttonsComposite = new Composite(calculatorComposite, SWT.NONE);
@@ -106,7 +108,7 @@ public class Calcuator {
 				if (autoCalculateCheckButton.getSelection()) {
 					showResult();
 				} else {
-					resultLabel.setText("");
+					resultText.setText("");
 				}
 			}
 
@@ -123,8 +125,6 @@ public class Calcuator {
 			}
 		});
 	}
-	
-	
 
 	private void createResultComposite() {
 		resultComposite = new Composite(calculatorComposite, SWT.NONE);
@@ -132,16 +132,16 @@ public class Calcuator {
 		resultComposite.setLayout(new FormLayout());
 
 		FormData resultDescFormData = new FormData();
-		resultDescFormData.left = new FormAttachment(0,70);
+		resultDescFormData.left = new FormAttachment(0, 70);
 
-		resultLabelDescription = new Label(resultComposite, SWT.NONE);
-		resultLabelDescription.setText("Result: ");
-		resultLabelDescription.setLayoutData(resultDescFormData);
+		resultLabel = new Label(resultComposite, SWT.NONE);
+		resultLabel.setText("Result: ");
+		resultLabel.setLayoutData(resultDescFormData);
 
 		FormData resultFormData = new FormData();
-		resultFormData.left = new FormAttachment(resultLabelDescription);
-		resultLabel = new Label(resultComposite, SWT.NONE);
-		resultLabel.setLayoutData(resultFormData);
+		resultFormData.left = new FormAttachment(resultLabel);
+		resultText = new Text(resultComposite, SWT.BORDER | SWT.READ_ONLY);
+		resultText.setLayoutData(resultFormData);
 	}
 
 	private void showResult() {
@@ -151,21 +151,28 @@ public class Calcuator {
 		if (!StringUtils.isEmpty(firstNumberString) && !StringUtils.isEmpty(secondNumberString)
 				&& selectionIndex >= 0) {
 			String resultString = operationsManager.getResult(firstNumberString, secondNumberString, selectionIndex);
-			resultLabel.setText(resultString);
+			resultText.setText(resultString);
 			resultComposite.pack();
 		} else {
-			resultLabel.setText("");
+			resultText.setText("");
 			resultComposite.pack();
 		}
 	}
 
-
+	/**
+	 * Disposes calculator views
+	 */
 	public void dispose() {
 		if (!calculatorComposite.isDisposed()) {
 			calculatorComposite.dispose();
 		}
 	}
 
+	/**
+	 * Return calculator`s parent control
+	 * 
+	 * @return
+	 */
 	public Control getControl() {
 		return calculatorComposite;
 	}

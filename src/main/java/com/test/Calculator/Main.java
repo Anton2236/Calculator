@@ -4,10 +4,7 @@
 package com.test.Calculator;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -31,6 +28,7 @@ public class Main {
 
 		Display display = new Display();
 		Shell shell = new Shell(display, SWT.TITLE | SWT.CLOSE);
+		shell.setText("Calculator");
 
 		TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
 
@@ -40,7 +38,7 @@ public class Main {
 
 		calculatorTab.setText("Calculator");
 
-		Calcuator calcuator = new Calcuator(tabFolder, new OperationsManager(history));
+		CalcuatorView calcuator = new CalcuatorView(tabFolder, new OperationsManager(history));
 		calculatorTab.setControl(calcuator.getControl());
 
 		TabItem historyTab = new TabItem(tabFolder, SWT.NONE);

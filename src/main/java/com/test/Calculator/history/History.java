@@ -10,4 +10,6 @@ public abstract class History {
  public abstract void addToHistory(double  firstNumber, double secondNumber,double result, Operation operation);
  public abstract void clearHistory();
  
+ public abstract void setModifyListener(Runnable runnable);
+ 
 }

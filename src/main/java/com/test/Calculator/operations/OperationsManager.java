@@ -1,5 +1,6 @@
 package com.test.Calculator.operations;
 
+import com.test.Calculator.StringUtils;
 import com.test.Calculator.history.History;
 
 public class OperationsManager {

@@ -15,10 +15,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import com.test.Calculator.history.History;
+import com.test.Calculator.history.SessionHistory;
 import com.test.Calculator.operations.OperationsManager;
-
-import history.History;
-import history.SessionHistory;
 
 public class Calcuator {
 	

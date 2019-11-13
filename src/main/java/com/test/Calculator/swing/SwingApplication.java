@@ -2,6 +2,7 @@ package com.test.Calculator.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 
@@ -33,7 +34,7 @@ public class SwingApplication extends JFrame {
 
 		tabbedPane.addTab("Calculator", new SwingCalculatorView(operationsManager));
 		tabbedPane.addTab("History", new SwingHistoryView(history));
-		setSize(400, 300);
+
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -50,7 +51,8 @@ public class SwingApplication extends JFrame {
 			SwingApplication swingApplication = new SwingApplication();
 			swingApplication.setVisible(true);
 			swingApplication.setTitle("Calculator");
-			swingApplication.setResizable(false);
+			swingApplication.setSize(400, 300);
+			swingApplication.setMinimumSize(new Dimension(300,200));
 		});
 	}
 }

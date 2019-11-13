@@ -1,4 +1,4 @@
-package com.test.Calculator;
+package com.test.Calculator.swt;
 
 import java.util.List;
 
@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 
+import com.test.Calculator.StringUtils;
 import com.test.Calculator.history.History;
 
 public class HistoryView {

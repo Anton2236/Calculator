@@ -1,4 +1,4 @@
-package com.test.Calculator;
+package com.test.Calculator.swt;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyListener;
@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
+import com.test.Calculator.StringUtils;
 import com.test.Calculator.history.History;
 import com.test.Calculator.history.SessionHistory;
 import com.test.Calculator.operations.OperationsManager;

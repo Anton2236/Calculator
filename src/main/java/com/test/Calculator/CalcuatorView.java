@@ -4,6 +4,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -65,6 +67,24 @@ public class CalcuatorView {
 
 	private void createOperationsComposite() {
 
+		VerifyListener verifyListener = new VerifyListener() {
+
+			@Override
+			public void verifyText(VerifyEvent e) {
+				Text text = (Text) e.getSource();
+
+				String oldString = text.getText();
+				String newString = oldString.substring(0, e.start) + e.text + oldString.substring(e.end);
+				boolean isDouble = true;
+				try {
+					Double.parseDouble(newString);
+				} catch (Exception exception) {
+					isDouble = false;
+				}
+				e.doit = isDouble || newString.equals("");
+
+			}
+		};
 		operationsComposite = new Composite(calculatorComposite, SWT.NONE);
 
 		RowLayout operationsLayout = new RowLayout(SWT.HORIZONTAL);
@@ -76,6 +96,9 @@ public class CalcuatorView {
 		firstNumberText = new Text(operationsComposite, SWT.BORDER);
 		operationCombo = new Combo(operationsComposite, SWT.READ_ONLY | SWT.DROP_DOWN);
 		secondNumberText = new Text(operationsComposite, SWT.BORDER);
+
+		firstNumberText.addVerifyListener(verifyListener);
+		secondNumberText.addVerifyListener(verifyListener);
 
 		operationCombo.setItems(operationsManager.getOperationKeysArray());
 		operationCombo.select(0);
@@ -100,6 +123,7 @@ public class CalcuatorView {
 		autoCalculateCheckButton = new Button(buttonsComposite, SWT.CHECK);
 
 		autoCalculateCheckButton.setSelection(true);
+		
 		autoCalculateCheckButton.setText("Calculate on the fly");
 		autoCalculateCheckButton.addSelectionListener(new SelectionAdapter() {
 
@@ -107,8 +131,10 @@ public class CalcuatorView {
 			public void widgetSelected(SelectionEvent e) {
 				if (autoCalculateCheckButton.getSelection()) {
 					showResult();
+					calculateButton.setEnabled(false);
 				} else {
 					resultText.setText("");
+					calculateButton.setEnabled(true);
 				}
 			}
 
@@ -116,7 +142,7 @@ public class CalcuatorView {
 
 		calculateButton = new Button(buttonsComposite, SWT.PUSH);
 		calculateButton.setText("Calculate");
-
+		calculateButton.setEnabled(false);
 		calculateButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override

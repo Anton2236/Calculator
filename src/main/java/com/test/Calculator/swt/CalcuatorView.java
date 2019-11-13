@@ -10,6 +10,8 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
@@ -37,10 +39,6 @@ public class CalcuatorView {
 	private Button autoCalculateCheckButton;
 	private OperationsManager operationsManager;
 
-	private Composite operationsComposite;
-	private Composite buttonsComposite;
-	private Composite resultComposite;
-
 	private Button calculateButton;
 	private Text resultText;
 	private Label resultLabel;
@@ -56,17 +54,20 @@ public class CalcuatorView {
 		this.operationsManager = operationsManager;
 
 		calculatorComposite = new Composite(tabFolder, SWT.NONE);
-		FillLayout layout = new FillLayout(SWT.VERTICAL);
+		GridLayout layout = new GridLayout(5, true);
+		layout.marginLeft = 10;
+		layout.marginRight = 10;
+
 		calculatorComposite.setLayout(layout);
 
-		createOperationsComposite();
+		createOperationsPanel();
 
-		createButtonsComposite();
+		createButtonsPanel();
 
-		createResultComposite();
+		createResultPanel();
 	}
 
-	private void createOperationsComposite() {
+	private void createOperationsPanel() {
 
 		VerifyListener verifyListener = new VerifyListener() {
 
@@ -87,17 +88,17 @@ public class CalcuatorView {
 			}
 		};
 
-		operationsComposite = new Composite(calculatorComposite, SWT.NONE);
+		GridData textGridData = new GridData(SWT.FILL, SWT.CENTER, true, true);
+		textGridData.horizontalSpan = 2;
+		GridData comboBoxGridData = new GridData(SWT.CENTER, SWT.CENTER, false, true);
 
-		RowLayout operationsLayout = new RowLayout(SWT.HORIZONTAL);
-		operationsLayout.spacing = 15;
-		operationsLayout.center = true;
-		operationsLayout.justify = true;
-		operationsComposite.setLayout(operationsLayout);
+		firstNumberText = new Text(calculatorComposite, SWT.BORDER);
+		operationCombo = new Combo(calculatorComposite, SWT.READ_ONLY | SWT.DROP_DOWN);
+		secondNumberText = new Text(calculatorComposite, SWT.BORDER);
 
-		firstNumberText = new Text(operationsComposite, SWT.BORDER);
-		operationCombo = new Combo(operationsComposite, SWT.READ_ONLY | SWT.DROP_DOWN);
-		secondNumberText = new Text(operationsComposite, SWT.BORDER);
+		operationCombo.setLayoutData(comboBoxGridData);
+		firstNumberText.setLayoutData(textGridData);
+		secondNumberText.setLayoutData(textGridData);
 
 		firstNumberText.addVerifyListener(verifyListener);
 		secondNumberText.addVerifyListener(verifyListener);
@@ -114,15 +115,9 @@ public class CalcuatorView {
 		secondNumberText.addModifyListener(listener);
 	}
 
-	private void createButtonsComposite() {
-		buttonsComposite = new Composite(calculatorComposite, SWT.NONE);
+	private void createButtonsPanel() {
 
-		RowLayout buttonsLayout = new RowLayout(SWT.HORIZONTAL);
-		buttonsLayout.center = true;
-		buttonsLayout.justify = true;
-		buttonsComposite.setLayout(buttonsLayout);
-
-		autoCalculateCheckButton = new Button(buttonsComposite, SWT.CHECK);
+		autoCalculateCheckButton = new Button(calculatorComposite, SWT.CHECK);
 
 		autoCalculateCheckButton.setSelection(true);
 		autoCalculateCheckButton.setText("Calculate on the fly");
@@ -141,7 +136,11 @@ public class CalcuatorView {
 
 		});
 
-		calculateButton = new Button(buttonsComposite, SWT.PUSH);
+		GridData checkBoxGridData = new GridData(SWT.CENTER, SWT.CENTER, false, true);
+		checkBoxGridData.horizontalSpan = 3;
+		autoCalculateCheckButton.setLayoutData(checkBoxGridData);
+
+		calculateButton = new Button(calculatorComposite, SWT.PUSH);
 		calculateButton.setText("Calculate");
 		calculateButton.setEnabled(false);
 		calculateButton.addSelectionListener(new SelectionAdapter() {
@@ -151,24 +150,23 @@ public class CalcuatorView {
 				showResult();
 			}
 		});
+
+		GridData buttonGridData = new GridData(SWT.LEFT, SWT.CENTER, true, true);
+		buttonGridData.horizontalSpan = 2;
+		calculateButton.setLayoutData(buttonGridData);
 	}
 
-	private void createResultComposite() {
-		resultComposite = new Composite(calculatorComposite, SWT.NONE);
+	private void createResultPanel() {
+		GridData labelGridData = new GridData(SWT.CENTER, SWT.CENTER, false, true);
 
-		resultComposite.setLayout(new FormLayout());
-
-		FormData resultDescFormData = new FormData();
-		resultDescFormData.left = new FormAttachment(0, 70);
-
-		resultLabel = new Label(resultComposite, SWT.NONE);
+		resultLabel = new Label(calculatorComposite, SWT.NONE);
 		resultLabel.setText("Result: ");
-		resultLabel.setLayoutData(resultDescFormData);
+		resultLabel.setLayoutData(labelGridData);
 
-		FormData resultFormData = new FormData();
-		resultFormData.left = new FormAttachment(resultLabel);
-		resultText = new Text(resultComposite, SWT.BORDER | SWT.READ_ONLY);
-		resultText.setLayoutData(resultFormData);
+		GridData resultGridData = new GridData(SWT.FILL, SWT.CENTER, false, true);
+		resultGridData.horizontalSpan = 4;
+		resultText = new Text(calculatorComposite, SWT.BORDER | SWT.READ_ONLY);
+		resultText.setLayoutData(resultGridData);
 	}
 
 	private void showResult() {
@@ -179,14 +177,13 @@ public class CalcuatorView {
 		if (!StringUtils.isEmpty(firstNumberString) && !StringUtils.isEmpty(secondNumberString)
 				&& selectionIndex >= 0) {
 			double firstNumber = Double.parseDouble(firstNumberString);
-			
+
 			double secondNumber = Double.parseDouble(secondNumberString);
-			
-			double result =  operationsManager.getResult(firstNumber, secondNumber, selectionIndex);
+
+			double result = operationsManager.getResult(firstNumber, secondNumber, selectionIndex);
 			resultString = StringUtils.formatDouble(result);
-		} 
+		}
 		resultText.setText(resultString);
-		resultComposite.pack();
 	}
 
 	/**

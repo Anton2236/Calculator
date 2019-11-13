@@ -18,8 +18,8 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 
-//		SWTApplication.run();
-		SwingApplication.run();
+		SWTApplication.run();
+//		SwingApplication.run();
 	}
 
 }

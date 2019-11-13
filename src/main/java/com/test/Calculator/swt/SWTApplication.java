@@ -1,6 +1,7 @@
 package com.test.Calculator.swt;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
@@ -19,12 +20,12 @@ public class SWTApplication {
 		History history = new SessionHistory();
 
 		Display display = new Display();
-		Shell shell = new Shell(display, SWT.TITLE | SWT.CLOSE);
+		Shell shell = new Shell(display);
 		shell.setText("Calculator");
-
+		shell.setLayout(new FillLayout());
+		
+		shell.setMinimumSize(300, 200);
 		TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
-
-		tabFolder.setBounds(0, 0, 300, 200);
 
 		TabItem calculatorTab = new TabItem(tabFolder, SWT.NONE);
 

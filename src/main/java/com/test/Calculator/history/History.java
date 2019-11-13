@@ -8,9 +8,9 @@ import com.test.Calculator.operations.Operation;
 public abstract class History {
 	/**
 	 * returns History List
-	 * @return List<String>
+	 * @return
 	 */
- public abstract List<String> getHistory();
+ public abstract List<HistoryEntry> getHistory();
  
  /**
   * Adds operation to history

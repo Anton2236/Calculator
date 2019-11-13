@@ -1,4 +1,4 @@
-package com.test.Calculator;
+package com.test.Calculator.swt;
 
 import java.util.List;
 
@@ -13,7 +13,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 
+import com.test.Calculator.StringUtils;
 import com.test.Calculator.history.History;
+import com.test.Calculator.history.HistoryEntry;
 
 public class HistoryView {
 
@@ -58,8 +60,14 @@ public class HistoryView {
 	}
 
 	private void showHistory() {
-		List<String> list = history.getHistory();
-		historyText.setText(list.stream().reduce("", StringUtils::concatWithLineBreaks));
+		List<HistoryEntry> list = history.getHistory();
+		
+		StringBuilder stringBuilder = new StringBuilder();
+		for(HistoryEntry entry :list) 
+		{
+			stringBuilder.append(entry).append("\n");
+		}
+		historyText.setText(stringBuilder.toString());
 		clearButton.setEnabled(list.size() > 0);
 	}
 

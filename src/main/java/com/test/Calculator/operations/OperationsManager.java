@@ -10,6 +10,7 @@ public class OperationsManager {
 
 	/**
 	 * Creates Operations Manager instance
+	 * 
 	 * @param history
 	 */
 	public OperationsManager(History history) {
@@ -20,9 +21,10 @@ public class OperationsManager {
 		operations[2] = new MultiplyOperation();
 		operations[3] = new DivideOperation();
 	}
-	
+
 	/**
 	 * Returns String array of operations
+	 * 
 	 * @return
 	 */
 
@@ -43,42 +45,19 @@ public class OperationsManager {
 	 * @param operationIndex
 	 * @return
 	 */
-	public String getResult(String firstNumberString, String secondNumberString, int operationIndex) {
-		Double firstNumber = null;
-		try {
-			firstNumber = Double.parseDouble(firstNumberString);
-		} catch (Exception e) {
-			return "invalid first number";
-		}
+	public Double getResult(double firstNumber, double secondNumber, int operationIndex) {
 
-		Double secondNumber = null;
-		try {
-			secondNumber = Double.parseDouble(secondNumberString);
-		} catch (Exception e) {
-			return "invalid second number";
-		}
+		Operation operation = operations[operationIndex];
 
-		Operation operation = null;
-		try {
-			operation = operations[operationIndex];
-		} catch (Exception e) {
-			return "invalid operation";
-		}
-
-		Double result = null;
-		try {
-
-			result = operation.calculate(firstNumber, secondNumber);
-		} catch (Exception e) {
-			return "Error";
-		}
+		Double result = operation.calculate(firstNumber, secondNumber);
+		
 		try {
 			history.addToHistory(firstNumber, secondNumber, result, operation);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 
-		return String.valueOf(result);
+		return result;
 	}
 
 }

@@ -12,29 +12,25 @@ public class SessionHistory extends History {
 
 	public SessionHistory() {
 		modifyListener = null;
-		history = new ArrayList<String>();
+		history = new ArrayList<HistoryEntry>();
 	}
 
-	private List<String> history;
+	private List<HistoryEntry> history;
 
 	@Override
-	public List<String> getHistory() {
-		return new ArrayList<String>(history);
+	public List<HistoryEntry> getHistory() {
+		return new ArrayList<HistoryEntry>(history);
 	}
 
 	@Override
 	public void addToHistory(double firstNumber, double secondNumber, double result, Operation operation) {
-		String firstNumberString = String.valueOf(firstNumber);
-		String secondNumberString = String.valueOf(secondNumber);
-		String resultString = String.valueOf(result);
-		history.add(String.format("%s %s %s = %s", firstNumberString, operation.getKey(), secondNumberString,
-				resultString));
+		history.add(0, new HistoryEntry(firstNumber, secondNumber, result, operation));
 		onModify();
 	}
 
 	@Override
 	public void clearHistory() {
-		history = new ArrayList<String>();
+		history = new ArrayList<HistoryEntry>();
 		onModify();
 
 	}

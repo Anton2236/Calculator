@@ -10,7 +10,7 @@ public abstract class Operation {
 	 * @return
 	 * @throws Exception
 	 */
-	abstract double calculate(double firstNumber, double secondNumber) throws Exception;
+	abstract double calculate(double firstNumber, double secondNumber);
 
 	/**
 	 * Returns String representation of operation

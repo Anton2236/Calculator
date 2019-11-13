@@ -3,8 +3,8 @@ package com.test.Calculator.operations;
 public class DivideOperation extends Operation {
 
 	@Override
-	double calculate(double firstNumber, double secondNumber) throws Exception {
-		return firstNumber/secondNumber;
+	double calculate(double firstNumber, double secondNumber) {
+		return firstNumber / secondNumber;
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package com.test.Calculator.operations;
 public class PlusOperation extends Operation {
 
 	@Override
-	double calculate(double firstNumber, double secondNumber) throws Exception {
+	double calculate(double firstNumber, double secondNumber){
 		return firstNumber+secondNumber;
 	}
 

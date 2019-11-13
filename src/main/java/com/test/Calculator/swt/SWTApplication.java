@@ -19,7 +19,7 @@ public class SWTApplication {
 	public static void run() {
 		History history = new SessionHistory();
 
-		Display display = new Display();
+		Display display = Display.getDefault();
 		Shell shell = new Shell(display);
 		shell.setText("Calculator");
 		shell.setLayout(new FillLayout());

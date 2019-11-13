@@ -3,9 +3,17 @@
  */
 package com.test.Calculator;
 
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+
 import com.test.Calculator.swing.SwingApplication;
 import com.test.Calculator.swt.SWTApplication;
-
 
 /**
  * @author SAIvanov
@@ -13,13 +21,61 @@ import com.test.Calculator.swt.SWTApplication;
  */
 public class Main {
 
+	
+//	public static void main(String[] args) 
+//	{
+//		SwingApplication.run();
+//		SWTApplication.run();
+//	}
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 
-		SWTApplication.run();
-//		SwingApplication.run();
+		Display display = Display.getDefault();
+
+		Shell shell = new Shell(display);
+		shell.setText("Choose framework");
+		shell.setLayout(new FillLayout(SWT.HORIZONTAL));
+		shell.setMinimumSize(300, 200);
+		Button swtButton = new Button(shell, SWT.PUSH);
+		swtButton.setText("SWT");
+
+		swtButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				shell.dispose();
+				SWTApplication.run();
+			}
+
+		});
+
+		Button swingButton = new Button(shell, SWT.PUSH);
+		swingButton.setText("Swing");
+
+		swingButton.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				shell.dispose();
+				SwingApplication.run();
+			}
+
+		});
+
+		swingButton.pack();
+		swtButton.pack();
+
+		shell.pack();
+		shell.open();
+
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+		display.dispose();
 	}
 
 }

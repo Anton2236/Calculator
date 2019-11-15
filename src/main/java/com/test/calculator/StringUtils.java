@@ -15,13 +15,13 @@ public class StringUtils {
     private static NumberFormatter numberFormatter = new NumberFormatter(new DecimalFormat());
 
     /**
-     * Checks if String is null or empty
+     * Checks if String is null, empty or minus
      * 
      * @param string - string to be checked
-     * @return true - if string null or empty
+     * @return true - if string null, empty or equals "-"
      */
-    public static boolean isEmpty(String string) {
-        return string == null || string.isEmpty();
+    public static boolean isEmptyOrMinus(String string) {
+        return string == null || string.isEmpty() || string.equals("-");
     }
 
     /**

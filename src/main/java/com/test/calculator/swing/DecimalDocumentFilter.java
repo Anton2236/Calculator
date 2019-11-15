@@ -5,8 +5,11 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
+import com.test.calculator.StringUtils;
+
 /**
  * Checks the text to be parsable as double
+ * 
  * @author SAIvanov
  *
  */
@@ -30,7 +33,7 @@ public class DecimalDocumentFilter extends DocumentFilter {
             Double.parseDouble(text);
             return true;
         } catch (Exception e) {
-            return false;
+            return StringUtils.isEmptyOrMinus(text);
         }
     }
 
@@ -45,6 +48,19 @@ public class DecimalDocumentFilter extends DocumentFilter {
 
         if (tryParse(sb.toString())) {
             super.replace(fb, offset, length, text, attrs);
+        }
+    }
+
+    @Override
+    public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
+
+        Document doc = fb.getDocument();
+        StringBuilder sb = new StringBuilder();
+        sb.append(doc.getText(0, doc.getLength()));
+        sb.delete(offset, offset + length);
+        System.out.println(sb.toString());
+        if (tryParse(sb.toString())) {
+            super.remove(fb, offset, length);
         }
     }
 

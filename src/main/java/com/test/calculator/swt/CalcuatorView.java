@@ -77,7 +77,7 @@ public class CalcuatorView extends Composite {
                 } catch (Exception exception) {
                     isDouble = false;
                 }
-                e.doit = isDouble || newString.equals("");
+                e.doit = isDouble || StringUtils.isEmptyOrMinus(newString);
 
             }
         };
@@ -168,10 +168,9 @@ public class CalcuatorView extends Composite {
         String secondNumberString = secondNumberText.getText();
         String resultString = "";
         int selectionIndex = operationCombo.getSelectionIndex();
-        if (!StringUtils.isEmpty(firstNumberString) && !StringUtils.isEmpty(secondNumberString)
+        if (!StringUtils.isEmptyOrMinus(firstNumberString) && !StringUtils.isEmptyOrMinus(secondNumberString)
                 && selectionIndex >= 0) {
             double firstNumber = Double.parseDouble(firstNumberString);
-
             double secondNumber = Double.parseDouble(secondNumberString);
 
             double result = operationsManager.getResult(firstNumber, secondNumber, selectionIndex);

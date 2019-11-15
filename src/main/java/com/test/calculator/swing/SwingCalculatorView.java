@@ -18,11 +18,11 @@ import com.test.calculator.operations.OperationsManager;
 
 /**
  * View for all calculator elements
+ * 
  * @author SAIvanov
  *
  */
 public class SwingCalculatorView extends JPanel {
-
 
     private OperationsManager operationsManager;
 
@@ -38,6 +38,7 @@ public class SwingCalculatorView extends JPanel {
 
     /**
      * Creates instance of calculator view
+     * 
      * @param operationsManager - operations manager
      */
     public SwingCalculatorView(OperationsManager operationsManager) {
@@ -168,7 +169,7 @@ public class SwingCalculatorView extends JPanel {
         String secondNumberString = secondNumberText.getText();
         int selectionIndex = operationsComboBox.getSelectedIndex();
         String resultString = "";
-        if (!StringUtils.isEmpty(firstNumberString) && !StringUtils.isEmpty(secondNumberString)) {
+        if (!StringUtils.isEmptyOrMinus(firstNumberString) && !StringUtils.isEmptyOrMinus(secondNumberString)) {
             double firstNumber = Double.parseDouble(firstNumberString);
             double secondNumber = Double.parseDouble(secondNumberString);
             double result = operationsManager.getResult(firstNumber, secondNumber, selectionIndex);

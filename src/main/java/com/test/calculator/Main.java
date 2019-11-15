@@ -1,7 +1,4 @@
-/**
- * 
- */
-package com.test.Calculator;
+package com.test.calculator;
 
 
 import org.eclipse.swt.SWT;
@@ -12,8 +9,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-import com.test.Calculator.swing.SwingApplication;
-import com.test.Calculator.swt.SWTApplication;
+import com.test.calculator.swing.SwingApplication;
+import com.test.calculator.swt.SWTApplication;
 
 /**
  * @author SAIvanov

@@ -46,7 +46,7 @@ public class SwingApplication extends JFrame {
             SwingApplication swingApplication = new SwingApplication();
             swingApplication.setVisible(true);
             swingApplication.setTitle("Calculator");
-            swingApplication.setSize(400, 300);
+            swingApplication.setSize(300, 200);
             swingApplication.setMinimumSize(new Dimension(300, 200));
             swingApplication.setLocation(new java.awt.Point(location.x, location.y));
         });

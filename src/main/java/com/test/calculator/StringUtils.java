@@ -12,7 +12,7 @@ import javax.swing.text.NumberFormatter;
  */
 public class StringUtils {
 
-    private static NumberFormatter numberFormatter = new NumberFormatter(new DecimalFormat());
+    private static NumberFormatter numberFormatter = new NumberFormatter(new DecimalFormat("0.##########"));
 
     /**
      * Checks if String is null, empty or minus

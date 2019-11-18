@@ -1,6 +1,7 @@
 package com.test.calculator.swt;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -9,6 +10,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 
@@ -25,7 +27,7 @@ public class HistoryView extends Composite {
 
     private History history;
 
-    private Text historyText;
+    private List historyList;
 
     private Button clearButton;
 
@@ -45,9 +47,9 @@ public class HistoryView extends Composite {
         layout.verticalSpacing = 20;
         setLayout(layout);
 
-        historyText = new Text(this, SWT.READ_ONLY | SWT.WRAP | SWT.V_SCROLL);
+        historyList = new List(this, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
         GridData textGridData = new GridData(SWT.FILL, SWT.FILL, true, true);
-        historyText.setLayoutData(textGridData);
+        historyList.setLayoutData(textGridData);
 
         history.setModifyListener(this::showHistory);
 
@@ -67,13 +69,13 @@ public class HistoryView extends Composite {
     }
 
     private void showHistory() {
-        List<HistoryEntry> list = history.getHistory();
+        java.util.List<HistoryEntry> list = history.getHistory();
 
-        StringBuilder stringBuilder = new StringBuilder();
-        for (HistoryEntry entry : list) {
-            stringBuilder.append(entry).append("\n");
-        }
-        historyText.setText(stringBuilder.toString());
+        String[] items = new String[list.size()];
+
+        list.stream().map(HistoryEntry::toString).collect(Collectors.toList()).toArray(items);
+
+        historyList.setItems(items);
         clearButton.setEnabled(list.size() > 0);
     }
 

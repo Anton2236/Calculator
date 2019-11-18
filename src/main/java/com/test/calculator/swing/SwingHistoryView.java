@@ -2,10 +2,12 @@ package com.test.calculator.swing;
 
 import java.awt.Dimension;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -24,7 +26,7 @@ public class SwingHistoryView extends JPanel {
 
     private History history;
 
-    private JTextArea historyTextArea;
+    private JList<HistoryEntry> historyList;
 
     private JButton clearButton;
 
@@ -38,11 +40,9 @@ public class SwingHistoryView extends JPanel {
 
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-        historyTextArea = new JTextArea();
+        historyList = new JList<HistoryEntry>();
 
-        historyTextArea.setEditable(false);
-
-        JScrollPane scrollPane = new JScrollPane(historyTextArea);
+        JScrollPane scrollPane = new JScrollPane(historyList);
 
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
@@ -65,11 +65,11 @@ public class SwingHistoryView extends JPanel {
     private void showHistory() {
         List<HistoryEntry> list = history.getHistory();
 
-        StringBuilder stringBuilder = new StringBuilder();
-        for (HistoryEntry entry : list) {
-            stringBuilder.append(entry).append("\n");
-        }
-        historyTextArea.setText(stringBuilder.toString());
+        HistoryEntry[] items = new HistoryEntry[list.size()];
+
+        list.toArray(items);
+        
+        historyList.setListData(items);
         clearButton.setEnabled(list.size() > 0);
     }
 

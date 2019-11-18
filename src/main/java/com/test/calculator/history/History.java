@@ -3,8 +3,6 @@ package com.test.calculator.history;
 import java.io.File;
 import java.util.List;
 
-import com.test.calculator.operations.Operation;
-
 /**
  * Stores and modifies history of calculations
  * 

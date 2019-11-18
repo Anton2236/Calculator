@@ -1,7 +1,6 @@
 package com.test.calculator.history;
 
 import com.test.calculator.StringUtils;
-import com.test.calculator.operations.Operation;
 
 /**
  * Stores data about performed calculation

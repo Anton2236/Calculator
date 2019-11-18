@@ -32,7 +32,7 @@ public class DecimalDocumentFilter extends DocumentFilter {
         try {
             Double.parseDouble(text);
             return true;
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             return StringUtils.isEmptyOrMinus(text);
         }
     }

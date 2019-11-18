@@ -1,6 +1,7 @@
 package com.test.calculator;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 
 import javax.swing.text.NumberFormatter;
 
@@ -33,7 +34,7 @@ public class StringUtils {
     public static String formatDouble(double doubleToFormat) {
         try {
             return numberFormatter.valueToString(doubleToFormat);
-        } catch (Exception e) {
+        } catch (ParseException e) {
             return "Error";
         }
     }

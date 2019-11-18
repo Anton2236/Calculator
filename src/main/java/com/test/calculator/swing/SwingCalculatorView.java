@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.text.PlainDocument;
 
 import com.test.calculator.StringUtils;
+import com.test.calculator.operations.Operation;
 import com.test.calculator.operations.OperationsManager;
 
 /**
@@ -172,7 +173,9 @@ public class SwingCalculatorView extends JPanel {
         if (!StringUtils.isEmptyOrMinus(firstNumberString) && !StringUtils.isEmptyOrMinus(secondNumberString)) {
             double firstNumber = Double.parseDouble(firstNumberString);
             double secondNumber = Double.parseDouble(secondNumberString);
-            double result = operationsManager.getResult(firstNumber, secondNumber, selectionIndex);
+            Operation operation = operationsManager.getOperation(selectionIndex);
+
+            double result = operationsManager.calculateResult(firstNumber, secondNumber, operation);
             resultString = StringUtils.formatDouble(result);
 
         }

@@ -2,6 +2,7 @@ package com.test.calculator.operations;
 
 /**
  * Performs multiplication
+ * 
  * @author SAIvanov
  *
  */

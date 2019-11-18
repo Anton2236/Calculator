@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 
 import com.test.calculator.StringUtils;
+import com.test.calculator.operations.Operation;
 import com.test.calculator.operations.OperationsManager;
 
 /**
@@ -65,7 +66,6 @@ public class CalcuatorView extends Composite {
 
         VerifyListener verifyListener = new VerifyListener() {
 
-            @Override
             public void verifyText(VerifyEvent e) {
                 Text text = (Text) e.getSource();
 
@@ -74,7 +74,7 @@ public class CalcuatorView extends Composite {
                 boolean isDouble = true;
                 try {
                     Double.parseDouble(newString);
-                } catch (Exception exception) {
+                } catch (NumberFormatException exception) {
                     isDouble = false;
                 }
                 e.doit = isDouble || StringUtils.isEmptyOrMinus(newString);
@@ -172,8 +172,9 @@ public class CalcuatorView extends Composite {
                 && selectionIndex >= 0) {
             double firstNumber = Double.parseDouble(firstNumberString);
             double secondNumber = Double.parseDouble(secondNumberString);
-
-            double result = operationsManager.getResult(firstNumber, secondNumber, selectionIndex);
+            Operation operation = operationsManager.getOperation(selectionIndex);
+            
+            double result = operationsManager.calculateResult(firstNumber, secondNumber, operation);
             resultString = StringUtils.formatDouble(result);
         }
         resultText.setText(resultString);

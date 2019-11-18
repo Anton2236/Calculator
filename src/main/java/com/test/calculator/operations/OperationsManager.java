@@ -1,8 +1,11 @@
 package com.test.calculator.operations;
 
 import com.test.calculator.history.History;
+import com.test.calculator.history.HistoryEntry;
+
 /**
  * Stores all available operations and performs calculations with them
+ * 
  * @author SAIvanov
  *
  */
@@ -28,6 +31,7 @@ public class OperationsManager {
 
     /**
      * Returns String array of operations
+     * 
      * @return String array of operations keys
      */
 
@@ -41,6 +45,16 @@ public class OperationsManager {
     }
 
     /**
+     * Returns operation by index
+     * 
+     * @param index - index of operation
+     * @return operation instance
+     */
+    public Operation getOperation(int index) {
+        return operations[index];
+    }
+
+    /**
      * Returns String result of calculation
      * 
      * @param firstNumberString
@@ -48,17 +62,11 @@ public class OperationsManager {
      * @param operationIndex
      * @return
      */
-    public Double getResult(double firstNumber, double secondNumber, int operationIndex) {
-
-        Operation operation = operations[operationIndex];
+    public Double calculateResult(double firstNumber, double secondNumber, Operation operation) {
 
         Double result = operation.calculate(firstNumber, secondNumber);
-
-        try {
-            history.addToHistory(firstNumber, secondNumber, result, operation);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        HistoryEntry historyEntry = new HistoryEntry(firstNumber, secondNumber, result, operation.getKey());
+        history.addToHistory(historyEntry);
 
         return result;
     }

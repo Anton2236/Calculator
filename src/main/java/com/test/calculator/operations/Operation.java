@@ -1,6 +1,8 @@
 package com.test.calculator.operations;
 
-public interface Operation {
+import java.io.Serializable;
+
+public interface Operation extends Serializable {
 
     /**
      * Performs calculation of two numbers
@@ -8,7 +10,6 @@ public interface Operation {
      * @param firstNumber
      * @param secondNumber
      * @return
-     * @throws Exception
      */
     double calculate(double firstNumber, double secondNumber);
 

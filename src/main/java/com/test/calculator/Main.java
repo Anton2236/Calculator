@@ -2,8 +2,6 @@ package com.test.calculator;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.xml.ws.Dispatch;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;

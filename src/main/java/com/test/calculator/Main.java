@@ -1,9 +1,14 @@
 package com.test.calculator;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.xml.ws.Dispatch;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
@@ -18,61 +23,82 @@ import com.test.calculator.swt.SWTApplication;
  */
 public class Main {
 
-	
-//	public static void main(String[] args) 
-//	{
-//		SwingApplication.run();
-//		SWTApplication.run();
-//	}
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
+    // public static void main(String[] args)
+    // {
+    // SwingApplication.run();
+    // SWTApplication.run();
+    // }
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
 
-		Display display = Display.getDefault();
+        Display display = new Display();
 
-		Shell shell = new Shell(display);
-		shell.setText("Choose framework");
-		shell.setLayout(new FillLayout(SWT.HORIZONTAL));
-		shell.setMinimumSize(300, 200);
-		Button swtButton = new Button(shell, SWT.PUSH);
-		swtButton.setText("SWT");
+        Shell shell = new Shell(display);
+        shell.setText("Choose framework");
+        shell.setLayout(new FillLayout(SWT.HORIZONTAL));
+        shell.setMinimumSize(300, 200);
+        Rectangle rectangle = display.getPrimaryMonitor().getClientArea();
 
-		swtButton.addSelectionListener(new SelectionAdapter() {
+        int x = rectangle.width / 2 - shell.getMinimumSize().x / 2;
+        int y = rectangle.height / 2 - shell.getMinimumSize().y / 2;
+        
+        shell.setLocation(new Point(x, y));
 
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				shell.dispose();
-				SWTApplication.run();
-			}
+        Button swtButton = new Button(shell, SWT.PUSH);
+        swtButton.setText("SWT");
 
-		});
+        final AtomicBoolean useSwt = new AtomicBoolean(true);
+        final AtomicBoolean buttonClicked = new AtomicBoolean(false);
 
-		Button swingButton = new Button(shell, SWT.PUSH);
-		swingButton.setText("Swing");
+        swtButton.addSelectionListener(new SelectionAdapter() {
 
-		swingButton.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                useSwt.set(true);
+                buttonClicked.set(true);
+                shell.dispose();
+            }
 
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				shell.dispose();
-				SwingApplication.run();
-			}
+        });
 
-		});
+        Button swingButton = new Button(shell, SWT.PUSH);
+        swingButton.setText("Swing");
 
-		swingButton.pack();
-		swtButton.pack();
+        swingButton.addSelectionListener(new SelectionAdapter() {
 
-		shell.pack();
-		shell.open();
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                useSwt.set(false);
+                buttonClicked.set(true);
+                shell.dispose();
+            }
 
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
-		display.dispose();
-	}
+        });
+
+        swingButton.pack();
+        swtButton.pack();
+
+        shell.pack();
+        shell.open();
+        Point point = new Point(0, 0);
+        while (!shell.isDisposed()) {
+            if (!display.readAndDispatch()) {
+                point = shell.getLocation();
+                display.sleep();
+            }
+        }
+
+        if (buttonClicked.get()) {
+            if (useSwt.get()) {
+                SWTApplication.run(display, point);
+            } else {
+                SwingApplication.run(point);
+            }
+        }
+
+        display.dispose();
+    }
 
 }

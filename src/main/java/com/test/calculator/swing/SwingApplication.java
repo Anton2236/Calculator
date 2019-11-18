@@ -8,6 +8,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
+import org.eclipse.swt.graphics.Point;
+
 import com.test.calculator.history.History;
 import com.test.calculator.history.SessionHistory;
 import com.test.calculator.operations.OperationsManager;
@@ -39,13 +41,14 @@ public class SwingApplication extends JFrame {
     /**
      * Starts the swing calculator application
      */
-    public static void run() {
+    public static void run(Point location) {
         EventQueue.invokeLater(() -> {
             SwingApplication swingApplication = new SwingApplication();
             swingApplication.setVisible(true);
             swingApplication.setTitle("Calculator");
             swingApplication.setSize(400, 300);
             swingApplication.setMinimumSize(new Dimension(300, 200));
+            swingApplication.setLocation(new java.awt.Point(location.x, location.y));
         });
     }
 }

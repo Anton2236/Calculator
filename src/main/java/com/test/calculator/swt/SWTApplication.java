@@ -1,6 +1,7 @@
 package com.test.calculator.swt;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -22,15 +23,15 @@ public class SWTApplication {
     /**
      * Starts the swt calculator app
      */
-    public static void run() {
+    public static void run(Display display, Point location) {
         History history = new SessionHistory();
 
-        Display display = Display.getDefault();
         Shell shell = new Shell(display);
         shell.setText("Calculator");
         shell.setLayout(new FillLayout());
 
         shell.setMinimumSize(300, 200);
+        shell.setLocation(location);
         TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
 
         TabItem calculatorTab = new TabItem(tabFolder, SWT.NONE);
@@ -54,7 +55,5 @@ public class SWTApplication {
                 display.sleep();
             }
         }
-
-        display.dispose();
     }
 }

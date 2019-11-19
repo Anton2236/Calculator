@@ -1,6 +1,7 @@
 package com.test.calculator.operations;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public interface Operation extends Serializable {
 
@@ -10,8 +11,9 @@ public interface Operation extends Serializable {
      * @param firstNumber
      * @param secondNumber
      * @return
+     * @throws ArithmeticException
      */
-    double calculate(double firstNumber, double secondNumber);
+    BigDecimal calculate(BigDecimal firstNumber, BigDecimal secondNumber) throws ArithmeticException;
 
     /**
      * Returns String representation of operation

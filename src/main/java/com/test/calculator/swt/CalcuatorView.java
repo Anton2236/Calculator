@@ -1,5 +1,7 @@
 package com.test.calculator.swt;
 
+import java.math.BigDecimal;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -170,12 +172,16 @@ public class CalcuatorView extends Composite {
         int selectionIndex = operationCombo.getSelectionIndex();
         if (!StringUtils.isEmptyOrMinus(firstNumberString) && !StringUtils.isEmptyOrMinus(secondNumberString)
                 && selectionIndex >= 0) {
-            double firstNumber = Double.parseDouble(firstNumberString);
-            double secondNumber = Double.parseDouble(secondNumberString);
+            BigDecimal firstNumber = new BigDecimal(firstNumberString);
+            BigDecimal secondNumber = new BigDecimal(secondNumberString);
             Operation operation = operationsManager.getOperation(selectionIndex);
-            
-            double result = operationsManager.calculateResult(firstNumber, secondNumber, operation);
-            resultString = StringUtils.formatDouble(result);
+
+            try {
+                BigDecimal result = operationsManager.calculateResult(firstNumber, secondNumber, operation);
+                resultString = (result.toString());
+            } catch (ArithmeticException exception) {
+                resultString = "Error: " + exception.getMessage();
+            }
         }
         resultText.setText(resultString);
     }

@@ -1,5 +1,7 @@
 package com.test.calculator.operations;
 
+import java.math.BigDecimal;
+
 /**
  * Performs division
  * 
@@ -9,8 +11,8 @@ package com.test.calculator.operations;
 public class DivideOperation implements Operation {
 
     @Override
-    public double calculate(double firstNumber, double secondNumber) {
-        return firstNumber / secondNumber;
+    public BigDecimal calculate(BigDecimal firstNumber, BigDecimal secondNumber) throws ArithmeticException {
+        return firstNumber.divide(secondNumber);
     }
 
     @Override

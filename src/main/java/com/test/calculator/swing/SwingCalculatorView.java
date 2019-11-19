@@ -2,6 +2,7 @@ package com.test.calculator.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.math.BigDecimal;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -171,12 +172,16 @@ public class SwingCalculatorView extends JPanel {
         int selectionIndex = operationsComboBox.getSelectedIndex();
         String resultString = "";
         if (!StringUtils.isEmptyOrMinus(firstNumberString) && !StringUtils.isEmptyOrMinus(secondNumberString)) {
-            double firstNumber = Double.parseDouble(firstNumberString);
-            double secondNumber = Double.parseDouble(secondNumberString);
+            BigDecimal firstNumber = new BigDecimal(firstNumberString);
+            BigDecimal secondNumber = new BigDecimal(secondNumberString);
             Operation operation = operationsManager.getOperation(selectionIndex);
 
-            double result = operationsManager.calculateResult(firstNumber, secondNumber, operation);
-            resultString = StringUtils.formatDouble(result);
+            try {
+                BigDecimal result = operationsManager.calculateResult(firstNumber, secondNumber, operation);
+                resultString = result.toString();
+            } catch (ArithmeticException exception) {
+                resultString = "Error: " + exception.getMessage();
+            }
 
         }
         resultText.setText(resultString);

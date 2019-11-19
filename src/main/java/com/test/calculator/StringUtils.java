@@ -1,10 +1,5 @@
 package com.test.calculator;
 
-import java.text.DecimalFormat;
-import java.text.ParseException;
-
-import javax.swing.text.NumberFormatter;
-
 /**
  * Some string utilities
  * 
@@ -12,8 +7,6 @@ import javax.swing.text.NumberFormatter;
  *
  */
 public class StringUtils {
-
-    private static NumberFormatter numberFormatter = new NumberFormatter(new DecimalFormat("0.##########"));
 
     /**
      * Checks if String is null, empty or minus
@@ -23,20 +16,6 @@ public class StringUtils {
      */
     public static boolean isEmptyOrMinus(String string) {
         return string == null || string.isEmpty() || string.equals("-");
-    }
-
-    /**
-     * Returns double formatted with DecimalFormat
-     * 
-     * @param doubleToFormat - double to format
-     * @return formatted double
-     */
-    public static String formatDouble(double doubleToFormat) {
-        try {
-            return numberFormatter.valueToString(doubleToFormat);
-        } catch (ParseException e) {
-            return "Error";
-        }
     }
 
 }

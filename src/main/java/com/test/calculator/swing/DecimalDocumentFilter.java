@@ -1,5 +1,7 @@
 package com.test.calculator.swing;
 
+import java.math.BigDecimal;
+
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -30,7 +32,7 @@ public class DecimalDocumentFilter extends DocumentFilter {
 
     private boolean tryParse(String text) {
         try {
-            Double.parseDouble(text);
+            new BigDecimal(text);
             return true;
         } catch (NumberFormatException e) {
             return StringUtils.isEmptyOrMinus(text);

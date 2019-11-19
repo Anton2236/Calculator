@@ -1,7 +1,5 @@
 package com.test.calculator.swt;
 
-import java.math.BigDecimal;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -76,7 +74,7 @@ public class CalcuatorView extends Composite {
                 String newString = oldString.substring(0, e.start) + e.text + oldString.substring(e.end);
                 boolean isDouble = true;
                 try {
-                    new BigDecimal(newString);
+                    new OperationSubject(newString);
                 } catch (NumberFormatException exception) {
                     isDouble = false;
                 }

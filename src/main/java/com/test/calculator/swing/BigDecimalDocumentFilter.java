@@ -1,13 +1,12 @@
 package com.test.calculator.swing;
 
-import java.math.BigDecimal;
-
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
 import com.test.calculator.StringUtils;
+import com.test.calculator.operations.OperationSubject;
 
 /**
  * Checks the text to be parsable as BigDecimal
@@ -32,7 +31,7 @@ public class BigDecimalDocumentFilter extends DocumentFilter {
 
     private boolean tryParse(String text) {
         try {
-            new BigDecimal(text);
+            new OperationSubject(text);
             return true;
         } catch (NumberFormatException e) {
             return StringUtils.isEmptyOrMinus(text);

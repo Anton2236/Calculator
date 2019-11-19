@@ -137,8 +137,8 @@ public class SwingCalculatorView extends JPanel {
         firstNumberText.getDocument().addDocumentListener(documentListener);
         secondNumberText.getDocument().addDocumentListener(documentListener);
 
-        ((PlainDocument) firstNumberText.getDocument()).setDocumentFilter(new DecimalDocumentFilter());
-        ((PlainDocument) secondNumberText.getDocument()).setDocumentFilter(new DecimalDocumentFilter());
+        ((PlainDocument) firstNumberText.getDocument()).setDocumentFilter(new BigDecimalDocumentFilter());
+        ((PlainDocument) secondNumberText.getDocument()).setDocumentFilter(new BigDecimalDocumentFilter());
 
         operationsComboBox = new JComboBox<String>(operationsManager.getOperationKeysArray());
         operationsComboBox.setEditable(false);

@@ -10,12 +10,12 @@ import javax.swing.text.DocumentFilter;
 import com.test.calculator.StringUtils;
 
 /**
- * Checks the text to be parsable as double
+ * Checks the text to be parsable as BigDecimal
  * 
  * @author SAIvanov
  *
  */
-public class DecimalDocumentFilter extends DocumentFilter {
+public class BigDecimalDocumentFilter extends DocumentFilter {
     @Override
     public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
             throws BadLocationException {

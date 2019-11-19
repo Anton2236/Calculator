@@ -12,7 +12,7 @@ import java.math.RoundingMode;
  */
 public class OperationSubject {
 
-    private static final MathContext MATH_CONTEXT = new MathContext(10, RoundingMode.HALF_EVEN);
+    private static final MathContext MATH_CONTEXT = new MathContext(20, RoundingMode.HALF_EVEN);
     private BigDecimal value;
 
     /**

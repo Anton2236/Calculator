@@ -1,6 +1,6 @@
 package com.test.calculator.history;
 
-import java.math.BigDecimal;
+import com.test.calculator.operations.OperationSubject;
 
 /**
  * Stores data about performed calculation
@@ -10,9 +10,9 @@ import java.math.BigDecimal;
  */
 public class HistoryEntry {
 
-    private BigDecimal firstNumber;
-    private BigDecimal secondNumber;
-    private BigDecimal result;
+    private OperationSubject firstNumber;
+    private OperationSubject secondNumber;
+    private OperationSubject result;
     private String operation;
 
     /**
@@ -23,7 +23,8 @@ public class HistoryEntry {
      * @param result - result of calculation
      * @param operation - instance of operation that was performed during calculation
      */
-    public HistoryEntry(BigDecimal firstNumber, BigDecimal secondNumber, BigDecimal result, String operation) {
+    public HistoryEntry(OperationSubject firstNumber, OperationSubject secondNumber, OperationSubject result,
+            String operation) {
         this.firstNumber = firstNumber;
         this.secondNumber = secondNumber;
         this.result = result;

@@ -1,7 +1,5 @@
 package com.test.calculator.operations;
 
-import java.math.BigDecimal;
-
 import com.test.calculator.history.History;
 import com.test.calculator.history.HistoryEntry;
 
@@ -65,10 +63,10 @@ public class OperationsManager {
      * @return result of calculation
      * @throws ArithmeticException
      */
-    public BigDecimal calculateResult(BigDecimal firstNumber, BigDecimal secondNumber, Operation operation)
+    public OperationSubject calculateResult(OperationSubject firstNumber, OperationSubject secondNumber, Operation operation)
             throws ArithmeticException {
 
-        BigDecimal result = operation.calculate(firstNumber, secondNumber);
+        OperationSubject result = operation.calculate(firstNumber, secondNumber);
         HistoryEntry historyEntry = new HistoryEntry(firstNumber, secondNumber, result, operation.getKey());
         history.addToHistory(historyEntry);
 

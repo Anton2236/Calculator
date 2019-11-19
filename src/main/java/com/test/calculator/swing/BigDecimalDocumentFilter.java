@@ -60,7 +60,6 @@ public class BigDecimalDocumentFilter extends DocumentFilter {
         StringBuilder sb = new StringBuilder();
         sb.append(doc.getText(0, doc.getLength()));
         sb.delete(offset, offset + length);
-        System.out.println(sb.toString());
         if (tryParse(sb.toString())) {
             super.remove(fb, offset, length);
         }

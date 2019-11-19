@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.test.calculator.StringUtils;
 import com.test.calculator.operations.Operation;
+import com.test.calculator.operations.OperationSubject;
 import com.test.calculator.operations.OperationsManager;
 
 /**
@@ -172,12 +173,12 @@ public class CalcuatorView extends Composite {
         int selectionIndex = operationCombo.getSelectionIndex();
         if (!StringUtils.isEmptyOrMinus(firstNumberString) && !StringUtils.isEmptyOrMinus(secondNumberString)
                 && selectionIndex >= 0) {
-            BigDecimal firstNumber = new BigDecimal(firstNumberString);
-            BigDecimal secondNumber = new BigDecimal(secondNumberString);
+            OperationSubject firstNumber = new OperationSubject(firstNumberString);
+            OperationSubject secondNumber = new OperationSubject(secondNumberString);
             Operation operation = operationsManager.getOperation(selectionIndex);
 
             try {
-                BigDecimal result = operationsManager.calculateResult(firstNumber, secondNumber, operation);
+                OperationSubject result = operationsManager.calculateResult(firstNumber, secondNumber, operation);
                 resultString = (result.toString());
             } catch (ArithmeticException exception) {
                 resultString = "Error: " + exception.getMessage();

@@ -13,7 +13,7 @@ public interface Operation extends Serializable {
      * @return
      * @throws ArithmeticException
      */
-    BigDecimal calculate(BigDecimal firstNumber, BigDecimal secondNumber) throws ArithmeticException;
+    OperationSubject calculate(OperationSubject firstNumber, OperationSubject secondNumber) throws ArithmeticException;
 
     /**
      * Returns String representation of operation

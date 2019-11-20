@@ -115,7 +115,7 @@ public class HistoryView extends Composite {
         list.stream().map(HistoryEntry::toString).collect(Collectors.toList()).toArray(items);
 
         historyList.setItems(items);
-        clearButton.setEnabled(list.size() > 0);
+        clearButton.setEnabled(!list.isEmpty());
     }
 
 }

@@ -7,10 +7,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.reflect.TypeToken;
-import com.test.calculator.operations.Operation;
 
 /**
  * History of calculations, which stores entries in ArrayList
@@ -19,6 +20,8 @@ import com.test.calculator.operations.Operation;
  *
  */
 public class SessionHistory implements History {
+
+    private static final Logger LOG = Logger.getLogger(SessionHistory.class);
 
     private HistoryModifiedListener modifyListener;
 
@@ -61,32 +64,27 @@ public class SessionHistory implements History {
     @Override
     public void importFromFile(File file) {
         Gson gson = new Gson();
-        List<HistoryEntry> data;
+        List<HistoryEntry> data = null;
         FileReader fileReader = null;
         try {
             fileReader = new FileReader(file);
             data = gson.fromJson(fileReader, new TypeToken<List<HistoryEntry>>() {
             }.getType());
-            fileReader.close();
-        } catch (IOException e) {
-            data = null;
-            e.printStackTrace();
-        } catch (JsonIOException e) {
-            data = null;
-            e.printStackTrace();
+        } catch (IOException | JsonIOException e) {
+            System.out.println(e);
+            LOG.error(e);
         } finally {
             try {
                 if (fileReader != null) {
                     fileReader.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e);
+                LOG.error(e);
             }
         }
 
-        if (data != null)
-
-        {
+        if (data != null) {
             this.history = data;
             onModify();
         }
@@ -104,10 +102,9 @@ public class SessionHistory implements History {
             fileWriter.write(jsonString);
 
             fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JsonIOException e) {
-            e.printStackTrace();
+        } catch (IOException | JsonIOException e) {
+            System.out.println(e);
+            LOG.error(e);
         }
     }
 

@@ -1,7 +1,6 @@
 package com.test.calculator.operations;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 public interface Operation extends Serializable {
 

@@ -96,7 +96,7 @@ public class SwingHistoryView extends JPanel {
         list.toArray(items);
 
         historyList.setListData(items);
-        clearButton.setEnabled(list.size() > 0);
+        clearButton.setEnabled(!list.isEmpty());
     }
 
     private File getFile(boolean save) {
@@ -107,7 +107,7 @@ public class SwingHistoryView extends JPanel {
         fileChooser.setAcceptAllFileFilterUsed(false);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON file", "json");
         fileChooser.addChoosableFileFilter(filter);
-        
+
         int returnValue;
         if (save) {
             returnValue = fileChooser.showSaveDialog(this);

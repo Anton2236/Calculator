@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Display;
 
 import com.test.calculator.history.History;
 import com.test.calculator.history.SessionHistory;
@@ -16,10 +17,12 @@ import com.test.calculator.operations.OperationsManager;
 
 public class SwingApplication extends JFrame {
 
+    private static SwingApplication swingApplication;
+
     /**
      * Creates instance of Swing calculator application
      */
-    public SwingApplication() {
+    private SwingApplication() {
 
         JTabbedPane tabbedPane = new JTabbedPane();
 
@@ -31,7 +34,7 @@ public class SwingApplication extends JFrame {
         tabbedPane.addTab("History", new SwingHistoryView(history));
 
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         Container pane = getContentPane();
 
@@ -41,14 +44,22 @@ public class SwingApplication extends JFrame {
     /**
      * Starts the swing calculator application
      */
-    public static void run(Point location) {
+    public static void run(Display display, Point location) {
         EventQueue.invokeLater(() -> {
-            SwingApplication swingApplication = new SwingApplication();
+            swingApplication = new SwingApplication();
             swingApplication.setVisible(true);
             swingApplication.setTitle("Calculator");
             swingApplication.setSize(400, 300);
             swingApplication.setMinimumSize(new Dimension(400, 300));
             swingApplication.setLocation(new java.awt.Point(location.x, location.y));
+
         });
+        while (swingApplication == null || !swingApplication.isDisplayable()) {
+            display.sleep();
+        }
+
+        while (swingApplication.isDisplayable()) {
+            display.sleep();
+        }
     }
 }

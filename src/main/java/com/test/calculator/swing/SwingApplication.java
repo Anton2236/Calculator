@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -14,6 +16,7 @@ import org.eclipse.swt.widgets.Display;
 import com.test.calculator.history.History;
 import com.test.calculator.history.SessionHistory;
 import com.test.calculator.operations.OperationsManager;
+import com.test.calculator.swing.utils.WindowClosingListener;
 
 public class SwingApplication extends JFrame {
 
@@ -30,8 +33,10 @@ public class SwingApplication extends JFrame {
 
         OperationsManager operationsManager = new OperationsManager(history);
 
-        tabbedPane.addTab("Calculator", new SwingCalculatorView(operationsManager));
-        tabbedPane.addTab("History", new SwingHistoryView(history));
+        SwingCalculatorView calculatorView = new SwingCalculatorView(operationsManager);
+        tabbedPane.addTab("Calculator", calculatorView);
+        SwingHistoryView historyView = new SwingHistoryView(history);
+        tabbedPane.addTab("History", historyView);
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -39,6 +44,11 @@ public class SwingApplication extends JFrame {
         Container pane = getContentPane();
 
         pane.add(tabbedPane, BorderLayout.CENTER);
+        WindowClosingListener closingListener = (e) -> {
+            calculatorView.onClosing();
+            historyView.onClosing();
+        };
+        addWindowListener(closingListener);
     }
 
     /**
@@ -52,7 +62,6 @@ public class SwingApplication extends JFrame {
             swingApplication.setSize(400, 300);
             swingApplication.setMinimumSize(new Dimension(400, 300));
             swingApplication.setLocation(new java.awt.Point(location.x, location.y));
-
         });
         while (swingApplication == null || !swingApplication.isDisplayable()) {
             display.sleep();

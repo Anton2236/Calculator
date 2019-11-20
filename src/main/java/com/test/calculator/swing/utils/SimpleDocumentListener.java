@@ -1,4 +1,4 @@
-package com.test.calculator.swing;
+package com.test.calculator.swing.utils;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;

@@ -71,7 +71,6 @@ public class SessionHistory implements History {
             data = gson.fromJson(fileReader, new TypeToken<List<HistoryEntry>>() {
             }.getType());
         } catch (IOException | JsonIOException e) {
-            System.out.println(e);
             LOG.error(e);
         } finally {
             try {
@@ -79,7 +78,6 @@ public class SessionHistory implements History {
                     fileReader.close();
                 }
             } catch (IOException e) {
-                System.out.println(e);
                 LOG.error(e);
             }
         }
@@ -92,19 +90,24 @@ public class SessionHistory implements History {
 
     @Override
     public void exportToFile(File file) {
+        FileWriter fileWriter = null;
         try {
             String jsonString = new Gson().toJson(history);
-
-            FileWriter fileWriter;
 
             fileWriter = new FileWriter(file);
 
             fileWriter.write(jsonString);
 
-            fileWriter.close();
         } catch (IOException | JsonIOException e) {
-            System.out.println(e);
             LOG.error(e);
+        } finally {
+            if (fileWriter != null) {
+                try {
+                    fileWriter.close();
+                } catch (IOException exception) {
+                    LOG.error(exception);
+                }
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package com.test.calculator.swing;
+package com.test.calculator.swing.utils;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;

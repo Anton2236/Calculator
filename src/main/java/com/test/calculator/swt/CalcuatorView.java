@@ -1,9 +1,10 @@
 package com.test.calculator.swt;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
@@ -19,6 +20,7 @@ import com.test.calculator.StringUtils;
 import com.test.calculator.operations.Operation;
 import com.test.calculator.operations.OperationSubject;
 import com.test.calculator.operations.OperationsManager;
+import com.test.calculator.swt.utils.SelectionListener;
 
 /**
  * View for all calculator elements
@@ -61,26 +63,22 @@ public class CalcuatorView extends Composite {
         createButtonsPanel();
 
         createResultPanel();
+
     }
 
     private void createOperationsPanel() {
 
-        VerifyListener verifyListener = new VerifyListener() {
-
-            public void verifyText(VerifyEvent e) {
-                Text text = (Text) e.getSource();
-
-                String oldString = text.getText();
-                String newString = oldString.substring(0, e.start) + e.text + oldString.substring(e.end);
-                boolean isDouble = true;
-                try {
-                    new OperationSubject(newString);
-                } catch (NumberFormatException exception) {
-                    isDouble = false;
-                }
-                e.doit = isDouble || StringUtils.isEmptyOrMinus(newString);
-
+        VerifyListener verifyListener = (e) -> {
+            Text text = (Text) e.getSource();
+            String oldString = text.getText();
+            String newString = oldString.substring(0, e.start) + e.text + oldString.substring(e.end);
+            boolean isDouble = true;
+            try {
+                new OperationSubject(newString);
+            } catch (NumberFormatException exception) {
+                isDouble = false;
             }
+            e.doit = isDouble || StringUtils.isEmptyOrMinus(newString);
         };
 
         GridData textGridData = new GridData(SWT.FILL, SWT.CENTER, true, true);
@@ -97,17 +95,26 @@ public class CalcuatorView extends Composite {
 
         firstNumberText.addVerifyListener(verifyListener);
         secondNumberText.addVerifyListener(verifyListener);
+        addDisposeListener((e) -> {
+            firstNumberText.removeVerifyListener(verifyListener);
+            secondNumberText.removeVerifyListener(verifyListener);
+        });
 
         operationCombo.setItems(operationsManager.getOperationKeysArray());
         operationCombo.select(0);
-        ModifyListener listener = e -> {
+        ModifyListener modifyListener = e -> {
             if (autoCalculateCheckButton.getSelection()) {
                 showResult();
             }
         };
-        operationCombo.addModifyListener(listener);
-        firstNumberText.addModifyListener(listener);
-        secondNumberText.addModifyListener(listener);
+        operationCombo.addModifyListener(modifyListener);
+        firstNumberText.addModifyListener(modifyListener);
+        secondNumberText.addModifyListener(modifyListener);
+        addDisposeListener((e) -> {
+            operationCombo.removeModifyListener(modifyListener);
+            firstNumberText.removeModifyListener(modifyListener);
+            secondNumberText.removeModifyListener(modifyListener);
+        });
     }
 
     private void createButtonsPanel() {
@@ -116,19 +123,20 @@ public class CalcuatorView extends Composite {
 
         autoCalculateCheckButton.setSelection(true);
         autoCalculateCheckButton.setText("Calculate on the fly");
-        autoCalculateCheckButton.addSelectionListener(new SelectionAdapter() {
+        SelectionListener autoCalculateSelectionListener = (e) -> {
 
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                if (autoCalculateCheckButton.getSelection()) {
-                    showResult();
-                    calculateButton.setEnabled(false);
-                } else {
-                    resultText.setText("");
-                    calculateButton.setEnabled(true);
-                }
+            if (autoCalculateCheckButton.getSelection()) {
+                showResult();
+                calculateButton.setEnabled(false);
+            } else {
+                resultText.setText("");
+                calculateButton.setEnabled(true);
             }
 
+        };
+        autoCalculateCheckButton.addSelectionListener(autoCalculateSelectionListener);
+        addDisposeListener((e) -> {
+            autoCalculateCheckButton.removeSelectionListener(autoCalculateSelectionListener);
         });
 
         GridData checkBoxGridData = new GridData(SWT.CENTER, SWT.CENTER, false, true);
@@ -138,12 +146,14 @@ public class CalcuatorView extends Composite {
         calculateButton = new Button(this, SWT.PUSH);
         calculateButton.setText("Calculate");
         calculateButton.setEnabled(false);
-        calculateButton.addSelectionListener(new SelectionAdapter() {
 
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                showResult();
-            }
+        SelectionListener calculateListener = (e) -> {
+            showResult();
+        };
+        calculateButton.addSelectionListener(calculateListener);
+        addDisposeListener((e) -> {
+            calculateButton.removeSelectionListener(calculateListener);
+            System.out.println("removed");
         });
 
         GridData buttonGridData = new GridData(SWT.LEFT, SWT.CENTER, true, true);
@@ -184,4 +194,5 @@ public class CalcuatorView extends Composite {
         }
         resultText.setText(resultString);
     }
+
 }

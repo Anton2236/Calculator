@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.TabFolder;
 
 import com.test.calculator.history.History;
 import com.test.calculator.history.HistoryEntry;
+import com.test.calculator.swt.utils.SelectionListener;
 
 /**
  * View for history
@@ -55,15 +56,19 @@ public class HistoryView extends Composite {
         historyList.setLayoutData(textGridData);
 
         history.setModifyListener(this::showHistory);
+        addDisposeListener(e -> {
+            history.setModifyListener(null);
+        });
 
         clearButton = new Button(this, SWT.PUSH);
         clearButton.setText("Clear history");
-        clearButton.addSelectionListener(new SelectionAdapter() {
 
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                history.clearHistory();
-            }
+        SelectionListener clearListener = (e) -> {
+            history.clearHistory();
+        };
+        clearButton.addSelectionListener(clearListener);
+        addDisposeListener(e -> {
+            clearButton.removeSelectionListener(clearListener);
         });
 
         GridData gridData = new GridData(SWT.CENTER, SWT.CENTER, true, false);
@@ -72,32 +77,33 @@ public class HistoryView extends Composite {
         importButton = new Button(this, SWT.PUSH);
         importButton.setText("Import history");
         importButton.setLayoutData(gridData);
-        importButton.addSelectionListener(new SelectionAdapter() {
-
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                String pathString = getFilePath(tabFolder.getShell(), SWT.OPEN);
-                if (pathString != null) {
-                    history.importFromFile(new File(pathString));
-                }
+        SelectionListener importListener = (e) -> {
+            String pathString = getFilePath(tabFolder.getShell(), SWT.OPEN);
+            if (pathString != null) {
+                history.importFromFile(new File(pathString));
             }
+        };
+        importButton.addSelectionListener(importListener);
+        addDisposeListener((e) -> {
+            importButton.removeSelectionListener(importListener);
         });
 
         exportButton = new Button(this, SWT.PUSH);
         exportButton.setText("Export history");
         exportButton.setLayoutData(gridData);
-        exportButton.addSelectionListener(new SelectionAdapter() {
 
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                String pathString = getFilePath(tabFolder.getShell(), SWT.SAVE);
-                if (pathString != null) {
-                    history.exportToFile(new File(pathString));
-                }
+        SelectionListener exportListener = (e) -> {
+            String pathString = getFilePath(tabFolder.getShell(), SWT.SAVE);
+            if (pathString != null) {
+                history.exportToFile(new File(pathString));
             }
 
-        });
+        };
+        exportButton.addSelectionListener(exportListener);
 
+        addDisposeListener((e) -> {
+            exportButton.removeSelectionListener(exportListener);
+        });
         showHistory(history);
     }
 
@@ -117,5 +123,4 @@ public class HistoryView extends Composite {
         historyList.setItems(items);
         clearButton.setEnabled(!list.isEmpty());
     }
-
 }

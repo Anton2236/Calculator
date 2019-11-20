@@ -2,6 +2,7 @@ package com.test.calculator.swing;
 
 import java.awt.Dimension;
 import java.awt.Panel;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.test.calculator.history.History;
 import com.test.calculator.history.HistoryEntry;
+import com.test.calculator.swing.utils.ClosableJPanel;
 
 /**
  * View for history
@@ -24,7 +26,7 @@ import com.test.calculator.history.HistoryEntry;
  * @author SAIvanov
  *
  */
-public class SwingHistoryView extends JPanel {
+public class SwingHistoryView extends ClosableJPanel {
 
     private JList<HistoryEntry> historyList;
 
@@ -52,26 +54,35 @@ public class SwingHistoryView extends JPanel {
 
         clearButton = new JButton("Clear history");
 
-        clearButton.addActionListener((e) -> {
+        ActionListener clearListener = (e) -> {
             history.clearHistory();
-        });
+        };
+        clearButton.addActionListener(clearListener);
 
         importButton = new JButton("Import histroy");
 
-        importButton.addActionListener((e) -> {
+        ActionListener importListener = (e) -> {
             File file = getFile(false);
             if (file != null) {
                 history.importFromFile(file);
             }
-        });
+        };
+        importButton.addActionListener(importListener);
 
         exportButton = new JButton("Export histroy");
 
-        exportButton.addActionListener((e) -> {
+        ActionListener exportListener = (e) -> {
             File file = getFile(true);
             if (file != null) {
                 history.exportToFile(file);
             }
+        };
+        exportButton.addActionListener(exportListener);
+
+        doOnClosing(() -> {
+            clearButton.removeActionListener(clearListener);
+            importButton.removeActionListener(importListener);
+            exportButton.removeActionListener(exportListener);
         });
 
         add(scrollPane);
@@ -85,6 +96,9 @@ public class SwingHistoryView extends JPanel {
         add(Box.createRigidArea(new Dimension(20, 10)));
 
         history.setModifyListener(this::showHistory);
+        doOnClosing(() -> {
+            history.setModifyListener(null);
+        });
         showHistory(history);
     }
 

@@ -2,6 +2,7 @@ package com.test.calculator.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -17,6 +18,9 @@ import com.test.calculator.StringUtils;
 import com.test.calculator.operations.Operation;
 import com.test.calculator.operations.OperationSubject;
 import com.test.calculator.operations.OperationsManager;
+import com.test.calculator.swing.utils.BigDecimalDocumentFilter;
+import com.test.calculator.swing.utils.ClosableJPanel;
+import com.test.calculator.swing.utils.SimpleDocumentListener;
 
 /**
  * View for all calculator elements
@@ -24,7 +28,7 @@ import com.test.calculator.operations.OperationsManager;
  * @author SAIvanov
  *
  */
-public class SwingCalculatorView extends JPanel {
+public class SwingCalculatorView extends ClosableJPanel {
 
     private OperationsManager operationsManager;
 
@@ -94,9 +98,8 @@ public class SwingCalculatorView extends JPanel {
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.LINE_AXIS));
 
         Dimension rigidAreaSize = new Dimension(50, 20);
-
         autocalculateCheckBox = new JCheckBox("Calculate on the fly");
-        autocalculateCheckBox.addActionListener(e -> {
+        ActionListener autocalculateListener = e -> {
             if (autocalculateCheckBox.isSelected()) {
                 showResult();
                 calculateButton.setEnabled(false);
@@ -104,13 +107,22 @@ public class SwingCalculatorView extends JPanel {
                 resultText.setText("");
                 calculateButton.setEnabled(true);
             }
+        };
+        autocalculateCheckBox.addActionListener(autocalculateListener);
+        doOnClosing(() -> {
+            autocalculateCheckBox.removeActionListener(autocalculateListener);
         });
+
         autocalculateCheckBox.setSelected(true);
         buttonsPanel.add(autocalculateCheckBox);
         buttonsPanel.add(Box.createRigidArea(rigidAreaSize));
         calculateButton = new JButton("Calculate");
-        calculateButton.addActionListener((e) -> {
+        ActionListener calculateListener = (e) -> {
             showResult();
+        };
+        calculateButton.addActionListener(calculateListener);
+        doOnClosing(() -> {
+            calculateButton.removeActionListener(calculateListener);
         });
         calculateButton.setEnabled(false);
         buttonsPanel.add(calculateButton);
@@ -137,16 +149,25 @@ public class SwingCalculatorView extends JPanel {
         firstNumberText.getDocument().addDocumentListener(documentListener);
         secondNumberText.getDocument().addDocumentListener(documentListener);
 
+        doOnClosing(() -> {
+            firstNumberText.getDocument().removeDocumentListener(documentListener);
+            secondNumberText.getDocument().removeDocumentListener(documentListener);
+        });
+
         ((PlainDocument) firstNumberText.getDocument()).setDocumentFilter(new BigDecimalDocumentFilter());
         ((PlainDocument) secondNumberText.getDocument()).setDocumentFilter(new BigDecimalDocumentFilter());
 
         operationsComboBox = new JComboBox<String>(operationsManager.getOperationKeysArray());
         operationsComboBox.setEditable(false);
 
-        operationsComboBox.addActionListener(e -> {
+        ActionListener actionListener = e -> {
             if (autocalculateCheckBox.isSelected()) {
                 showResult();
             }
+        };
+        operationsComboBox.addActionListener(actionListener);
+        doOnClosing(() -> {
+            operationsComboBox.removeActionListener(actionListener);
         });
 
         Dimension comboBoxSize = new Dimension(50, 20);
